@@ -30,6 +30,16 @@ class HelpfulFields
       radio_button_tag(name, value, checked) + label_tag(label_for, label)
     end
 
+    def params_check_box_tag(name, value, options={})
+      in_params = params.value_from_nested_key(name).presence
+      checked = if in_params.is_a?(Array)
+        in_params.map(&:to_s).include?(value.to_s)
+      else
+        in_params.to_s == value.to_s
+      end
+      check_box_tag(name, value, checked, options)
+    end
+
     def check_box_with_label(name, value, checked, label, options={})
       label_for = options[:id] || name
       check_box_tag(name, value, checked, options) + label_tag(label_for, label)

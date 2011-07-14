@@ -59,5 +59,45 @@ describe HelpfulFields do
           should == "<input id=\"foo_bar\" name=\"foo[bar]\" type=\"text\" value=\"2\" />"
       end
     end
+
+    describe :params_text_area_tag do
+      it "renders with value" do
+        render('<%= params_text_area_tag "foo[bar]" %>', :foo => {:bar => 2}).
+          should == "<textarea id=\"foo_bar\" name=\"foo[bar]\">2</textarea>"
+      end
+    end
+
+    describe :params_hidden_field_tag do
+      it "renders with value" do
+        render('<%= params_hidden_field_tag "foo[bar]" %>', :foo => {:bar => 2}).
+          should == "<input id=\"foo_bar\" name=\"foo[bar]\" type=\"hidden\" value=\"2\" />"
+      end
+    end
+
+    describe :params_check_box_tag do
+      it "renders with value" do
+        render('<%= params_check_box_tag "foo[bar]", "1" %>', :foo => {:bar => 1}).
+          should == "<input checked=\"checked\" id=\"foo_bar\" name=\"foo[bar]\" type=\"checkbox\" value=\"1\" />"
+      end
+
+      it "is not checked when value does not match" do
+        render('<%= params_check_box_tag "foo[bar]", "2" %>', :foo => {:bar => 1}).
+          should == "<input id=\"foo_bar\" name=\"foo[bar]\" type=\"checkbox\" value=\"2\" />"
+      end
+
+      it "is checked when value is in array" do
+        render('<%= params_check_box_tag "foo[bar][]", "1" %>', :foo => {:bar => [1,2,3]}).
+          should == "<input checked=\"checked\" id=\"foo_bar_\" name=\"foo[bar][]\" type=\"checkbox\" value=\"1\" />"
+      end
+
+      it "is not checked when value is not in array" do
+        render('<%= params_check_box_tag "foo[bar][]", "1" %>', :foo => {:bar => [2,3]}).
+          should == "<input id=\"foo_bar_\" name=\"foo[bar][]\" type=\"checkbox\" value=\"1\" />"
+      end
+    end
+
+    describe :check_box_with_label do
+      
+    end
   end
 end
