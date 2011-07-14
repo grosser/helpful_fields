@@ -49,7 +49,7 @@ class HelpfulFields
     end
   end
 
-  class FormBuilder
+  module FormBuilder
     def check_box_with_label(field, label, options={})
       check_box(field, options) + label(field, label, options)
     end
@@ -60,5 +60,7 @@ class HelpfulFields
   end
 end
 
-ActionView::Base.send(:include, HelpfulFields::TagHelper)
-ActionView::Helpers::FormBuilder.send(:include, HelpfulFields::FormBuilder)
+if defined?(ActionView)
+  ActionView::Base.send(:include, HelpfulFields::TagHelper)
+  ActionView::Helpers::FormBuilder.send(:include, HelpfulFields::FormBuilder)
+end

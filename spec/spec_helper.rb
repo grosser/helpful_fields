@@ -1,2 +1,6 @@
+require 'active_support/all'
+require 'action_view/helpers/form_helper'
+require 'action_view/partials'
+require 'action_view/base'
 $LOAD_PATH.unshift 'lib'
 require 'helpful_fields'
