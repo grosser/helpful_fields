@@ -23,6 +23,10 @@ Usage
     # select tag filled via array(single or key/value), and preselected from params(or :value)
     <%= params_select_tag :type, ['', ['0','none']] %>
 
+    # check box/radio with label for forms
+    <% f.check_box_with_label :is_admin, 'Can destroy stuff?' %>
+    <% f.radio_button_with_label :type, 'evil', 'No so nice' %>
+
 Author
 ======
 [Michael Grosser](http://grosser.it)<br/>
