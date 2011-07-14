@@ -30,4 +30,34 @@ describe HelpfulFields do
       end
     end
   end
+
+  describe 'TagHelper' do
+    def render(text, params={})
+      view = ActionView::Base.new
+      view.stub!(:params).and_return params.with_indifferent_access
+      view.render(:inline => text)
+    end
+
+    describe :params_text_field_tag do
+      it "renders empty" do
+        render('<%= params_text_field_tag :xxx %>').
+          should == "<input id=\"xxx\" name=\"xxx\" type=\"text\" />"
+      end
+
+      it "grabs the value from params" do
+        render('<%= params_text_field_tag :xxx %>', 'xxx' => 1).
+          should == "<input id=\"xxx\" name=\"xxx\" type=\"text\" value=\"1\" />"
+      end
+
+      it "renders with nested params" do
+        render('<%= params_text_field_tag "foo[bar]" %>').
+          should == "<input id=\"foo_bar\" name=\"foo[bar]\" type=\"text\" />"
+      end
+
+      it "grabs the value from nested params" do
+        render('<%= params_text_field_tag "foo[bar]" %>', :foo => {:bar => 2}).
+          should == "<input id=\"foo_bar\" name=\"foo[bar]\" type=\"text\" value=\"2\" />"
+      end
+    end
+  end
 end
