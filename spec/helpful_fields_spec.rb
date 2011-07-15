@@ -97,7 +97,22 @@ describe HelpfulFields do
     end
 
     describe :check_box_with_label do
-      
+      it "adds a label to the checkbox" do
+        render('<%= check_box_with_label "foo[bar]", "1", true, "Click it" %>').
+          should == "<input checked=\"checked\" id=\"foo_bar\" name=\"foo[bar]\" type=\"checkbox\" value=\"1\" /><label for=\"foo_bar\">Click it</label>"
+      end
+
+      it "uses a given id" do
+        render('<%= check_box_with_label "foo[bar]", "1", true, "Click it", :id => "xxx" %>').
+          should == "<input checked=\"checked\" id=\"xxx\" name=\"foo[bar]\" type=\"checkbox\" value=\"1\" /><label for=\"xxx\">Click it</label>"
+      end
+    end
+
+    describe :params_check_box_with_label do
+      it "its not surprise" do
+        render('<%= params_check_box_with_label "foo[bar]", "1", "Click it" %>', :foo => {:bar => 1}).
+          should == "<input checked=\"checked\" id=\"foo_bar\" name=\"foo[bar]\" type=\"checkbox\" value=\"1\" /><label for=\"foo_bar\">Click it</label>"
+      end
     end
   end
 end

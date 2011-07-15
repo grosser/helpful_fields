@@ -3,6 +3,15 @@ require 'helpful_fields/core_ext/hash'
 class HelpfulFields
   VERSION = File.read( File.join(File.dirname(__FILE__),'..','VERSION') ).strip
 
+  def self.check_box_checked?(params, name, value)
+    in_params = params.value_from_nested_key(name).presence
+    if in_params.is_a?(Array)
+      in_params.map(&:to_s).include?(value.to_s)
+    else
+      in_params.to_s == value.to_s
+    end
+  end
+
   module TagHelper
     def params_text_field_tag(name, options={})
       text_field_tag name, params.value_from_nested_key(name), options
@@ -31,13 +40,7 @@ class HelpfulFields
     end
 
     def params_check_box_tag(name, value, options={})
-      in_params = params.value_from_nested_key(name).presence
-      checked = if in_params.is_a?(Array)
-        in_params.map(&:to_s).include?(value.to_s)
-      else
-        in_params.to_s == value.to_s
-      end
-      check_box_tag(name, value, checked, options)
+      check_box_tag(name, value, HelpfulFields.check_box_checked?(params, name, value), options)
     end
 
     def check_box_with_label(name, value, checked, label, options={})
@@ -46,10 +49,7 @@ class HelpfulFields
     end
 
     def params_check_box_with_label(name, value, label, options={})
-      # TODO this should be .to_s == value.to_s !?
-      checked = params.value_from_nested_key(name).presence
-      checked = checked.map(&:to_s).include?(value.to_s) if checked.is_a?(Array)
-      check_box_with_label(name, value, checked, label, options)
+      check_box_with_label(name, value, HelpfulFields.check_box_checked?(params, name, value), label, options)
     end
 
     def select_options_tag(name, list, options={})
