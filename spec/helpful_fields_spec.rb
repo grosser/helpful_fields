@@ -114,5 +114,27 @@ describe HelpfulFields do
           should == "<input checked=\"checked\" id=\"foo_bar\" name=\"foo[bar]\" type=\"checkbox\" value=\"1\" /><label for=\"foo_bar\">Click it</label>"
       end
     end
+
+    describe :radio_button_with_label do
+      it "adds a simple label to a radio button" do
+        render('<%= radio_button_with_label "foo", "1", true, "Click it" %>').
+          should == "<input checked=\"checked\" id=\"foo_1\" name=\"foo\" type=\"radio\" value=\"1\" /><label for=\"foo_1\">Click it</label>"
+      end
+
+      it "generates labels for nested attributes" do
+        render('<%= radio_button_with_label "foo[bar][baz]", "1", true, "Click it" %>').
+          should == "<input checked=\"checked\" id=\"foo_bar_baz_1\" name=\"foo[bar][baz]\" type=\"radio\" value=\"1\" /><label for=\"foo_bar_baz_1\">Click it</label>"
+      end
+
+      it "generates labels for arrays" do
+        render('<%= radio_button_with_label "foo[]", "1", true, "Click it" %>').
+          should == "<input checked=\"checked\" id=\"foo__1\" name=\"foo[]\" type=\"radio\" value=\"1\" /><label for=\"foo_1\">Click it</label>"
+      end
+
+      it "generates labels for nested attribute-arrays" do
+        render('<%= radio_button_with_label "foo[bar][baz][]", "1", true, "Click it" %>').
+          should == "<input checked=\"checked\" id=\"foo_bar_baz__1\" name=\"foo[bar][baz][]\" type=\"radio\" value=\"1\" /><label for=\"foo_bar_baz__1\">Click it</label>"
+      end
+    end
   end
 end
