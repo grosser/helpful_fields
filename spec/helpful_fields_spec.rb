@@ -136,5 +136,34 @@ describe HelpfulFields do
           should == "<input checked=\"checked\" id=\"foo_bar_baz__1\" name=\"foo[bar][baz][]\" type=\"radio\" value=\"1\" /><label for=\"foo_bar_baz__1\">Click it</label>"
       end
     end
+
+    describe :params_radio_button_tag do
+      it "renders normally" do
+        render('<%= params_radio_button_tag "foo", "1" %>').
+          should == "<input id=\"foo_1\" name=\"foo\" type=\"radio\" value=\"1\" />"
+      end
+
+      it "fetches value from params" do
+        render('<%= params_radio_button_tag "foo", "1" %>', :foo => 1).
+          should == "<input checked=\"checked\" id=\"foo_1\" name=\"foo\" type=\"radio\" value=\"1\" />"
+      end
+
+      it "fetches value from nested params" do
+        render('<%= params_radio_button_tag "foo[bar]", "1" %>', :foo => {:bar => 1}).
+          should == "<input checked=\"checked\" id=\"foo_bar_1\" name=\"foo[bar]\" type=\"radio\" value=\"1\" />"
+      end
+
+      it "fetches value from nested params-array" do
+        render('<%= params_radio_button_tag "foo[bar][]", "1" %>', :foo => {:bar => [1]}).
+          should == "<input checked=\"checked\" id=\"foo_bar__1\" name=\"foo[bar][]\" type=\"radio\" value=\"1\" />"
+      end
+    end
+
+    describe :params_radio_button_with_label do
+      it "its not surprise" do
+        render('<%= params_radio_button_with_label "foo", "1", "Click it" %>', :foo => 1).
+          should == "<input checked=\"checked\" id=\"foo_1\" name=\"foo\" type=\"radio\" value=\"1\" /><label for=\"foo_1\">Click it</label>"
+      end
+    end
   end
 end

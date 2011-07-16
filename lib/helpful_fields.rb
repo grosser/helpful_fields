@@ -60,6 +60,14 @@ class HelpfulFields
       end
       radio_button_tag(name, value, checked) + label_tag(label_for, label)
     end
+
+    def params_radio_button_tag(name, value, options={})
+      radio_button_tag(name, value, HelpfulFields.check_box_checked?(params, name, value), options)
+    end
+
+    def params_radio_button_with_label(name, value, label, options={})
+      radio_button_with_label(name, value, HelpfulFields.check_box_checked?(params, name, value), label, options)
+    end
   end
 
   module FormBuilder
