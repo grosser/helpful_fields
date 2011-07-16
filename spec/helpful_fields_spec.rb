@@ -1,6 +1,13 @@
 require File.expand_path('spec/spec_helper')
 
 describe HelpfulFields do
+  def render(text, params={})
+    view = ActionView::Base.new
+    view.stub!(:params).and_return params.with_indifferent_access
+    view.stub!(:protect_against_forgery?).and_return false
+    view.render(:inline => text)
+  end
+
   it "has a VERSION" do
     HelpfulFields::VERSION.should =~ /^\d+\.\d+\.\d+$/
   end
@@ -32,12 +39,6 @@ describe HelpfulFields do
   end
 
   describe 'TagHelper' do
-    def render(text, params={})
-      view = ActionView::Base.new
-      view.stub!(:params).and_return params.with_indifferent_access
-      view.render(:inline => text)
-    end
-
     describe :params_text_field_tag do
       it "renders empty" do
         render('<%= params_text_field_tag :xxx %>').
@@ -164,6 +165,18 @@ describe HelpfulFields do
         render('<%= params_radio_button_with_label "foo", "1", "Click it" %>', :foo => 1).
           should == "<input checked=\"checked\" id=\"foo_1\" name=\"foo\" type=\"radio\" value=\"1\" /><label for=\"foo_1\">Click it</label>"
       end
+    end
+  end
+
+  describe 'FormBuilder' do
+    it "adds check_box_with_label" do
+      render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.check_box_with_label :simple, "Hes so simple" %> <% end %>').
+        should == "<form action=\"/xxx\" method=\"post\"> <input name=\"user[simple]\" type=\"hidden\" value=\"0\" /><input id=\"user_simple\" name=\"user[simple]\" type=\"checkbox\" value=\"1\" /><label for=\"user_simple\">Hes so simple</label> </form>"
+    end
+
+    it "adds radio_button_with_label" do
+      render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "yes", "Hes so simple" %> <% end %>').
+        should == "<form action=\"/xxx\" method=\"post\"> <input id=\"user_simple_yes\" name=\"user[simple]\" type=\"radio\" value=\"yes\" /><label for=\"user_simple_yes\">Hes so simple</label> </form>"
     end
   end
 end
