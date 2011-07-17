@@ -166,6 +166,38 @@ describe HelpfulFields do
           should == "<input checked=\"checked\" id=\"foo_1\" name=\"foo\" type=\"radio\" value=\"1\" /><label for=\"foo_1\">Click it</label>"
       end
     end
+
+    describe :params_select_options_tag do
+      it "builds from simple list" do
+        render('<%= params_select_options_tag "foo", [1] %>').
+          should == "<select id=\"foo\" name=\"foo\"><option value=\"1\">1</option></select>"
+      end
+
+      it "builds from nested array" do
+        render('<%= params_select_options_tag "foo", [[1,2]] %>').
+          should == "<select id=\"foo\" name=\"foo\"><option value=\"2\">1</option></select>"
+      end
+
+      it "builds from simple list and nested array" do
+        render('<%= params_select_options_tag "foo", [1, [2,3]] %>').
+          should == "<select id=\"foo\" name=\"foo\"><option value=\"1\">1</option>\n<option value=\"3\">2</option></select>"
+      end
+
+      it "builds from hash" do
+        render('<%= params_select_options_tag "foo", {1 => 2} %>').
+          should == "<select id=\"foo\" name=\"foo\"><option value=\"2\">1</option></select>"
+      end
+
+      it "is prefilled" do
+        render('<%= params_select_options_tag "foo", [1,2,3] %>', :foo => '3').
+          should == "<select id=\"foo\" name=\"foo\"><option value=\"1\">1</option>\n<option value=\"2\">2</option>\n<option value=\"3\" selected=\"selected\">3</option></select>"
+      end
+
+      it "is prefilled from :value" do
+        render('<%= params_select_options_tag "foo", [1,2,3], :value => 2 %>', :foo => '3').
+          should == "<select id=\"foo\" name=\"foo\"><option value=\"1\">1</option>\n<option value=\"2\" selected=\"selected\">2</option>\n<option value=\"3\">3</option></select>"
+      end
+    end
   end
 
   describe 'FormBuilder' do
