@@ -13,15 +13,18 @@ Usage
     # text field filled from params
     <%= params_text_field_tag 'search[category]' %>
 
-    # check box with label selected if field is in params
+    # check box with label
+    # selected if params[:search][:user] is 1 or is an array that includes 1
     <%= params_check_box_with_label 'search[with_user]', 1, 'Search with users' %>
 
-    # radio button with label selected if field is in params
+    # radio button with label, checked when in params
     <%= params_radio_button_with_label 'search[type]', 'product', 'by Product' %>
     <%= params_radio_button_with_label 'search[type]', 'shop', 'by Shop' %>
 
-    # select tag filled via array(single or key/value), and preselected from params(or :value)
-    <%= params_select_tag :type, ['', ['0','none']] %>
+    # select tag with options, preselected from params(or :value)
+    <%= params_select_options_tag :type, ['', 'none'] %>
+    <%= params_select_options_tag :type, [[0,'none'], [1, 'all']] %>
+    <%= params_select_options_tag :type, {'none' => 0, 'all' => 1} %>
 
     # check box/radio with label for forms
     <% f.check_box_with_label :is_admin, 'Can destroy stuff?' %>
