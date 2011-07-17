@@ -9,8 +9,20 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Grosser"]
-  s.date = %q{2011-07-14}
+  s.date = %q{2011-07-17}
   s.email = %q{michael@grosser.it}
+  s.files = [
+    "Gemfile",
+    "Gemfile.lock",
+    "Rakefile",
+    "Readme.md",
+    "VERSION",
+    "helpful_fields.gemspec",
+    "lib/helpful_fields.rb",
+    "lib/helpful_fields/core_ext/hash.rb",
+    "spec/helpful_fields_spec.rb",
+    "spec/spec_helper.rb"
+  ]
   s.homepage = %q{http://github.com/grosser/helpful_fields}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.6.2}
