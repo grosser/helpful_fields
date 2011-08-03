@@ -1,5 +1,11 @@
+task :spec do
+  sh "rspec spec"
+end
+
 task :default do
-  sh "rspec spec/"
+  sh "RAILS=2.3.12 bundle && bundle exec rake spec"
+  sh "RAILS=3.0.9 bundle && bundle exec rake spec"
+  sh "RAILS=3.1.0.rc4 bundle && bundle exec rake spec"
 end
 
 begin

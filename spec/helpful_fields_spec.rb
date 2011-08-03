@@ -2,10 +2,18 @@ require File.expand_path('spec/spec_helper')
 
 describe HelpfulFields do
   def render(text, params={})
+    if ActionPack::VERSION::MAJOR > 2
+      text = text.gsub('<% form_for :user, nil,', '<%= form_for @user, :as => :user,')
+    end
+
     view = ActionView::Base.new
     view.stub!(:params).and_return params.with_indifferent_access
     view.stub!(:protect_against_forgery?).and_return false
-    view.render(:inline => text)
+    result = view.render(:inline => text)
+    result = result.gsub("accept-charset=\"UTF-8\" ","")
+    result = result.gsub(%r{<div .*?</div>},"")
+    result = result.gsub('class="user_new" id="user_new" ',"")
+    result
   end
 
   it "has a VERSION" do
