@@ -76,7 +76,7 @@ class HelpfulFields
     end
 
     def radio_button_with_label(field, value, label, options={})
-      radio_button(field, value, options) + label("#{field}_#{value}", label, options)
+      radio_button(field, value, options) + label([field.to_s.downcase, value.to_s.downcase].join("_"), label, options)
     end
   end
 end
