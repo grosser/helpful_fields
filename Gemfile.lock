@@ -26,7 +26,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  actionpack (= 2.3.12)
+  actionpack
   jeweler
   rake
   rspec (~> 2)
