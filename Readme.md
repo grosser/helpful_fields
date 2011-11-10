@@ -36,6 +36,10 @@ Usage
     <% f.check_box_with_label :is_admin, 'Can destroy stuff?' %>
     <% f.radio_button_with_label :type, 'evil', 'No so nice' %>
 
+TODO
+====
+ - support seperate options for label and input `radio_button_with_label 'xxx', 'yyy', true, 'Label', :label => {:style => 'float:left'}, :input => {:class => 'evil'}`
+
 Author
 ======
 [Michael Grosser](http://grosser.it)<br/>
