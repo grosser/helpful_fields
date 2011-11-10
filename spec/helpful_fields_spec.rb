@@ -224,24 +224,33 @@ describe HelpfulFields do
   end
 
   describe 'FormBuilder' do
-    it "adds check_box_with_label" do
-      render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.check_box_with_label :simple, "Hes so simple" %> <% end %>').
-        should == "<form action=\"/xxx\" method=\"post\"> <input name=\"user[simple]\" type=\"hidden\" value=\"0\" /><input id=\"user_simple\" name=\"user[simple]\" type=\"checkbox\" value=\"1\" /><label for=\"user_simple\">Hes so simple</label> </form>"
+    describe :check_box_with_label do
+      it "builds them" do
+        render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.check_box_with_label :simple, "Hes so simple" %> <% end %>').
+          should == "<form action=\"/xxx\" method=\"post\"> <input name=\"user[simple]\" type=\"hidden\" value=\"0\" /><input id=\"user_simple\" name=\"user[simple]\" type=\"checkbox\" value=\"1\" /><label for=\"user_simple\">Hes so simple</label> </form>"
+      end
+
+      it "uses given :id" do
+        render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.check_box_with_label :simple, "Hes so simple", :id => "xxx" %> <% end %>').
+          should == "<form action=\"/xxx\" method=\"post\"> <input name=\"user[simple]\" type=\"hidden\" value=\"0\" /><input id=\"xxx\" name=\"user[simple]\" type=\"checkbox\" value=\"1\" /><label for=\"xxx\">Hes so simple</label> </form>"
+      end
     end
 
-    it "adds radio_button_with_label" do
-      render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "yes", "Hes so simple" %> <% end %>').
-        should == "<form action=\"/xxx\" method=\"post\"> <input id=\"user_simple_yes\" name=\"user[simple]\" type=\"radio\" value=\"yes\" /><label for=\"user_simple_yes\">Hes so simple</label> </form>"
-    end
+    describe :radio_button_with_label do
+      it "builds them" do
+        render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "yes", "Hes so simple" %> <% end %>').
+          should == "<form action=\"/xxx\" method=\"post\"> <input id=\"user_simple_yes\" name=\"user[simple]\" type=\"radio\" value=\"yes\" /><label for=\"user_simple_yes\">Hes so simple</label> </form>"
+      end
 
-    it "adds radio_button_with_label for weird names" do
-      render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "NO.;§", "Hes so simple" %> <% end %>').
-        should == "<form action=\"/xxx\" method=\"post\"> <input id=\"user_simple_NO.___\" name=\"user[simple]\" type=\"radio\" value=\"NO.;\302\247\" /><label for=\"user_simple_NO.___\">Hes so simple</label> </form>"
-    end
+      it "builds with weird values" do
+        render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "NO.;§", "Hes so simple" %> <% end %>').
+          should == "<form action=\"/xxx\" method=\"post\"> <input id=\"user_simple_NO.___\" name=\"user[simple]\" type=\"radio\" value=\"NO.;\302\247\" /><label for=\"user_simple_NO.___\">Hes so simple</label> </form>"
+      end
 
-    it "uses given id" do
-      render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "yes", "Hes so simple", :id => "xxx" %> <% end %>').
-        should == "<form action=\"/xxx\" method=\"post\"> <input id=\"xxx\" name=\"user[simple]\" type=\"radio\" value=\"yes\" /><label for=\"xxx\">Hes so simple</label> </form>"
+      it "uses given :id" do
+        render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "yes", "Hes so simple", :id => "xxx" %> <% end %>').
+          should == "<form action=\"/xxx\" method=\"post\"> <input id=\"xxx\" name=\"user[simple]\" type=\"radio\" value=\"yes\" /><label for=\"xxx\">Hes so simple</label> </form>"
+      end
     end
   end
 end
