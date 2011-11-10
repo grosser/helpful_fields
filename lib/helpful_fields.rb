@@ -67,27 +67,16 @@ class HelpfulFields
 
   module FormBuilder
     def check_box_with_label(field, label, options={})
-      options = options.dup
-
-      if id = options.delete(:id)
-        label_options = options.merge(:for => id)
-        options = options.merge(:id => id)
-      else
-        label_options = options
-      end
-      check_box(field, options) + label(field, label, label_options)
+      check_box(field, :id => options[:id]) + label(field, label, :for => options[:id])
     end
 
     def radio_button_with_label(field, value, label, options={})
-      options = options.dup
-      unless id = options.delete(:id)
+      unless id = options[:id]
         object_s, fields_s, value_s = [@object_name, field, value].map{|f| @template.send(:sanitize_to_id, f) }
         id = "#{object_s}_#{fields_s}_#{value_s}"
       end
 
-      button = radio_button(field, value, options.merge(:id => id))
-      label = label('_', label, options.merge(:for => id))
-      button + label
+      radio_button(field, value, :id => id) + label('_', label, :for => id)
     end
   end
 end
