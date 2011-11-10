@@ -238,5 +238,10 @@ describe HelpfulFields do
       render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "NO.;§", "Hes so simple" %> <% end %>').
         should == "<form action=\"/xxx\" method=\"post\"> <input id=\"user_simple_NO.___\" name=\"user[simple]\" type=\"radio\" value=\"NO.;\302\247\" /><label for=\"user_simple_NO.___\">Hes so simple</label> </form>"
     end
+
+    it "uses given id" do
+      render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "yes", "Hes so simple", :id => "xxx" %> <% end %>').
+        should == "<form action=\"/xxx\" method=\"post\"> <input id=\"xxx\" name=\"user[simple]\" type=\"radio\" value=\"yes\" /><label for=\"xxx\">Hes so simple</label> </form>"
+    end
   end
 end

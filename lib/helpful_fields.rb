@@ -71,9 +71,14 @@ class HelpfulFields
     end
 
     def radio_button_with_label(field, value, label, options={})
-      object_s, fields_s, value_s = [@object_name, field, value].map{|f| @template.send(:sanitize_to_id, f) }
-      button = radio_button(field, value, options.merge(:id => "#{object_s}_#{fields_s}_#{value_s}"))
-      label = label("#{fields_s}_#{value_s}", label, options)
+      options = options.dup
+      unless id = options.delete(:id)
+        object_s, fields_s, value_s = [@object_name, field, value].map{|f| @template.send(:sanitize_to_id, f) }
+        id = "#{object_s}_#{fields_s}_#{value_s}"
+      end
+
+      button = radio_button(field, value, options.merge(:id => id))
+      label = label('_', label, options.merge(:for => id))
       button + label
     end
   end
