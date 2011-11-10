@@ -13,7 +13,17 @@ describe HelpfulFields do
     result = result.gsub("accept-charset=\"UTF-8\" ","")
     result = result.gsub(%r{<div .*?</div>},"")
     result = result.gsub('class="user_new" id="user_new" ',"")
+    assert_id_and_for_match(result)
     result
+  end
+
+  def assert_id_and_for_match(html)
+    if html.include?(' for=') and html.include?(' id=')
+      id = html.match(/ id="(.*?)"/)[1]
+      _for = html.match(/ for="(.*?)"/)[1]
+      id.should_not == nil
+      id.should == _for
+    end
   end
 
   it "has a VERSION" do
@@ -222,6 +232,11 @@ describe HelpfulFields do
     it "adds radio_button_with_label" do
       render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "yes", "Hes so simple" %> <% end %>').
         should == "<form action=\"/xxx\" method=\"post\"> <input id=\"user_simple_yes\" name=\"user[simple]\" type=\"radio\" value=\"yes\" /><label for=\"user_simple_yes\">Hes so simple</label> </form>"
+    end
+
+    it "adds radio_button_with_label for weird names" do
+      render('<% form_for :user, nil, :url=> "/xxx" do |f| %> <%= f.radio_button_with_label :simple, "NO.;§", "Hes so simple" %> <% end %>').
+        should == "<form action=\"/xxx\" method=\"post\"> <input id=\"user_simple_NO.___\" name=\"user[simple]\" type=\"radio\" value=\"NO.;\302\247\" /><label for=\"user_simple_NO.___\">Hes so simple</label> </form>"
     end
   end
 end

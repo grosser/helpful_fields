@@ -51,9 +51,6 @@ class HelpfulFields
       label_for = if options[:id]
         options[:id]  # when id was changed, label has to be for this id
       else
-        # name[hello][world] -> name_hello_world_
-        # name[hello][] -> name_hello_world__
-        # name -> name_
         sanitize_to_id(name) + '_' + sanitize_to_id(value)
       end
       radio_button_tag(name, value, checked, :id => label_for) + label_tag(label_for, label)
@@ -74,7 +71,10 @@ class HelpfulFields
     end
 
     def radio_button_with_label(field, value, label, options={})
-      radio_button(field, value, options) + label("#{field}_#{value}", label, options)
+      object_s, fields_s, value_s = [@object_name, field, value].map{|f| @template.send(:sanitize_to_id, f) }
+      button = radio_button(field, value, options.merge(:id => "#{object_s}_#{fields_s}_#{value_s}"))
+      label = label("#{fields_s}_#{value_s}", label, options)
+      button + label
     end
   end
 end
