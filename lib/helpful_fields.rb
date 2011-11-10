@@ -69,8 +69,7 @@ class HelpfulFields
     def check_box_with_label(field, label, options={})
       options = options.dup
 
-      if options.key?(:id)
-        id = options.delete(:id)
+      if id = options.delete(:id)
         label_options = options.merge(:for => id)
         options = options.merge(:id => id)
       else
@@ -81,11 +80,9 @@ class HelpfulFields
 
     def radio_button_with_label(field, value, label, options={})
       options = options.dup
-      id = if options.key?(:id)
-        options.delete(:id)
-      else
+      unless id = options.delete(:id)
         object_s, fields_s, value_s = [@object_name, field, value].map{|f| @template.send(:sanitize_to_id, f) }
-        "#{object_s}_#{fields_s}_#{value_s}"
+        id = "#{object_s}_#{fields_s}_#{value_s}"
       end
 
       button = radio_button(field, value, options.merge(:id => id))
