@@ -54,11 +54,9 @@ class HelpfulFields
         # name[hello][world] -> name_hello_world_
         # name[hello][] -> name_hello_world__
         # name -> name_
-        clean_name = name.to_s.gsub('[]','_').gsub('][','_').gsub(/[\]\[]/,'_')
-        clean_name += '_' unless clean_name =~ /_$/
-        clean_name + value.to_s.downcase
+        sanitize_to_id(name) + '_' + sanitize_to_id(value)
       end
-      radio_button_tag(name, value, checked) + label_tag(label_for, label)
+      radio_button_tag(name, value, checked, :id => label_for) + label_tag(label_for, label)
     end
 
     def params_radio_button_tag(name, value, options={})

@@ -137,7 +137,12 @@ describe HelpfulFields do
 
       it "generates labels for arrays" do
         render('<%= radio_button_with_label "foo[]", "1", true, "Click it" %>').
-          should == "<input checked=\"checked\" id=\"foo__1\" name=\"foo[]\" type=\"radio\" value=\"1\" /><label for=\"foo_1\">Click it</label>"
+          should == "<input checked=\"checked\" id=\"foo__1\" name=\"foo[]\" type=\"radio\" value=\"1\" /><label for=\"foo__1\">Click it</label>"
+      end
+
+      it "generates labels for uppercase/weird names" do
+        render('<%= radio_button_with_label "fooáßð[]", "UA§§;", true, "Click it" %>').
+          should == "<input checked=\"checked\" id=\"foo________UA_____\" name=\"foo\303\241\303\237\303\260[]\" type=\"radio\" value=\"UA\302\247\302\247;\" /><label for=\"foo________UA_____\">Click it</label>"
       end
 
       it "generates labels for nested attribute-arrays" do
