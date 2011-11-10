@@ -128,9 +128,14 @@ describe HelpfulFields do
     end
 
     describe :params_check_box_with_label do
-      it "its not surprise" do
+      it "works" do
         render('<%= params_check_box_with_label "foo[bar]", "1", "Click it" %>', :foo => {:bar => 1}).
           should == "<input checked=\"checked\" id=\"foo_bar\" name=\"foo[bar]\" type=\"checkbox\" value=\"1\" /><label for=\"foo_bar\">Click it</label>"
+      end
+
+      it "works with given id" do
+        render('<%= params_check_box_with_label "foo[bar]", "1", "Click it", :id => "xxx" %>', :foo => {:bar => 1}).
+          should == "<input checked=\"checked\" id=\"xxx\" name=\"foo[bar]\" type=\"checkbox\" value=\"1\" /><label for=\"xxx\">Click it</label>"
       end
     end
 
@@ -158,6 +163,11 @@ describe HelpfulFields do
       it "generates labels for nested attribute-arrays" do
         render('<%= radio_button_with_label "foo[bar][baz][]", "1", true, "Click it" %>').
           should == "<input checked=\"checked\" id=\"foo_bar_baz__1\" name=\"foo[bar][baz][]\" type=\"radio\" value=\"1\" /><label for=\"foo_bar_baz__1\">Click it</label>"
+      end
+
+      it "uses given id" do
+        render('<%= radio_button_with_label "foo", "1", true, "Click it", :id => "xxx" %>').
+          should == "<input checked=\"checked\" id=\"xxx\" name=\"foo\" type=\"radio\" value=\"1\" /><label for=\"xxx\">Click it</label>"
       end
     end
 
